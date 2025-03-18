@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\FrameXML\UI.xsd">
+    <Frame name="PalaceOfAssassinsFrame" parent="UIParent" hidden="false" movable="true" resizable="false" frameStrata="HIGH">
+        <Size>
+            <AbsDimension x="800" y="600"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+		
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBackground" setAllPoints="true" file="Interface\AddOns\PalaceOfAssassins\textures\background.tga"/>
+            </Layer>
+            <Layer level="ARTWORK">
+                <FontString name="PalaceOfAssassinsTitle" inherits="GameFontNormalLarge" justifyH="CENTER">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" y="-10"/>
+                    </Anchors>
+                    <Text>Palace of Assassins</Text>
+                </FontString>
+				
+				<!-- Текстуры в 4 углах -->
+                <Texture name="$parentTopLeftTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_top_left.tga">
+                    <Size>
+                        <AbsDimension x="50" y="50"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+                
+                <Texture name="$parentTopRightTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_top_right.tga">
+                    <Size>
+                        <AbsDimension x="50" y="50"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-0" y="0"/>
+                    </Anchors>
+                </Texture>
+                
+                <Texture name="$parentBottomLeftTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_bottom_left.tga">
+                    <Size>
+                        <AbsDimension x="50" y="50"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+                
+                <Texture name="$parentBottomRightTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_bottom_right.tga">
+                    <Size>
+                        <AbsDimension x="50" y="50"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+				
+                <!-- Текстура по левой стороне, растянутая по высоте -->
+                <Texture name="$parentTopSideTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_border.tga">
+                    <Size>
+                        <AbsDimension x="760" y="0"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+				
+                <Texture name="$parentLeftSideTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_border.tga" rotation="90">
+                    <Size>
+                        <AbsDimension x="550" y="50"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT" x="-250" y="0"/>
+                    </Anchors>
+                </Texture>
+				
+				<Texture name="$parentRightSideTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_border.tga" rotation="270">
+                    <Size>
+                        <AbsDimension x="550" y="50"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parent" relativePoint="RIGHT" x="250" y="0"/>
+                    </Anchors>
+                </Texture>
+				
+                <Texture name="$parentBottomSideTexture" file="Interface\AddOns\PalaceOfAssassins\textures\tooltip_border.tga" rotation="180">
+                    <Size>
+                        <AbsDimension x="760" y="50"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+				
+            </Layer>
+        </Layers>
+		
+        <Frames>
+            <Frame name="TopSection" parent="$parent">
+                <Size>
+                    <AbsDimension x="800" y="300"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTopBackground" setAllPoints="true" file="Interface\DialogFrame\UI-DialogBox-Background"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+			
+            <Frame name="BottomSection" parent="$parent">
+                <Size>
+                    <AbsDimension x="800" y="300"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="TopSection" relativePoint="BOTTOM"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBottomBackground" setAllPoints="true" file="Interface\DialogFrame\UI-DialogBox-Background"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+            
+			<Button name="CloseButton" inherits="UIPanelCloseButton" parentKey="CloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-20" y="-20"/>
+                </Anchors>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                self:RegisterForDrag("LeftButton")
+                self:SetScript("OnDragStart", self.StartMoving)
+                self:SetScript("OnDragStop", self.StopMovingOrSizing)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>
