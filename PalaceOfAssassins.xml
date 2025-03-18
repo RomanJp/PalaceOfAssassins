@@ -126,11 +126,23 @@
                 </Layers>
             </Frame>
             
-			<Button name="CloseButton" inherits="UIPanelCloseButton" parentKey="CloseButton">
-                <Anchors>
-                    <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-20" y="-20"/>
-                </Anchors>
-            </Button>
+			<Button name="CloseButton" inherits="UIPanel">
+				<Size x="62" y="62"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-15" y="-15"/>
+				</Anchors>
+				
+				<NormalTexture file="Interface\AddOns\PalaceOfAssassins\textures\close.tga"/>
+				<PushedTexture file="Interface\AddOns\PalaceOfAssassins\textures\close.tga"/>
+				<HighlightTexture file="Interface\AddOns\PalaceOfAssassins\textures\close.tga" alphaMode="ADD"/>
+				
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Hide()
+                    </OnClick>
+                </Scripts>
+		   </Button>
+   
         </Frames>
         <Scripts>
             <OnLoad>
