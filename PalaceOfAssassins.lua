@@ -1,12 +1,12 @@
 local function LoadTopSectionTextures()
     if TopFrame1Texture then
-        TopFrame1Texture:SetTexture("Interface\\AddOns\\PalaceOfAssassins\\textures\\tooltip_border")
+        TopFrame1Texture:SetTexture("Interface\\AddOns\\PalaceOfAssassins\\textures\\card.tga")
     end
     if TopFrame2Texture then
-        TopFrame2Texture:SetTexture("Interface\\AddOns\\PalaceOfAssassins\\textures\\tooltip_border")
+        TopFrame2Texture:SetTexture("Interface\\AddOns\\PalaceOfAssassins\\textures\\card.tga")
     end
     if TopFrame3Texture then
-        TopFrame3Texture:SetTexture("Interface\\AddOns\\PalaceOfAssassins\\textures\\tooltip_border")
+        TopFrame3Texture:SetTexture("Interface\\AddOns\\PalaceOfAssassins\\textures\\card.tga")
     end
 end
 
