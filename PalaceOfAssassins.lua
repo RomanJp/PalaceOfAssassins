@@ -2,6 +2,8 @@
 PalaceOfAssassinsDB = PalaceOfAssassinsDB or { hasViewedStory = false }
 
 local function LoadTopSectionTextures()
+    return
+    
     if CardFrame1Texture then
         CardFrame1Texture:SetTexture("Interface\\AddOns\\PalaceOfAssassins\\Textures\\Texture1")
     end
