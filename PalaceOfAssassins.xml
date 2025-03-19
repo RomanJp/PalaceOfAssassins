@@ -107,7 +107,7 @@
                 </Anchors>
 				
 				<!-- Первый фрейм -->
-				<Frame name="CardFrame1">
+				<Frame name="CardFrame1" parent="TopSection">
 					<Size>
 						<AbsDimension x="250" y="380"/>
 					</Size>
@@ -121,57 +121,16 @@
 									<AbsDimension x="250" y="380"/>
 								</Size>
 								<Anchors>
-									<Anchor point="CENTER"/>
+									<!-- Первый фрейм -->
+									<Anchor point="LEFT" relativeTo="$parent"  relativePoint="LEFT" x="0" y="0"/>
 								</Anchors>
 							</Texture>
+										
 						</Layer>
 					</Layers>
 				</Frame>
 
-				<!-- Второй фрейм -->
-				<Frame name="CardFrame2">
-					<Size>
-						<AbsDimension x="250" y="380"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="CardFrame1" relativePoint="TOPRIGHT" x="10" y="0"/>
-					</Anchors>
-					<Layers>
-						<Layer level="BACKGROUND">
-							<Texture name="CardFrame2Texture"  file="Interface\AddOns\PalaceOfAssassins\textures\card.tga">
-								<Size>
-									<AbsDimension x="250" y="380"/>
-								</Size>
-								<Anchors>
-									<Anchor point="CENTER"/>
-								</Anchors>
-							</Texture>
-						</Layer>
-					</Layers>
-				</Frame>
-
-				<!-- Третий фрейм -->
-				<Frame name="CardFrame3">
-					<Size>
-						<AbsDimension x="250" y="380"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="CardFrame2" relativePoint="TOPRIGHT" x="10" y="0"/>
-					</Anchors>
-					<Layers>
-						<Layer level="BACKGROUND">
-							<Texture name="CardFrame3Texture" file="Interface\AddOns\PalaceOfAssassins\textures\card.tga">
-								<Size>
-									<AbsDimension x="250" y="380"/>
-								</Size>
-								<Anchors>
-									<Anchor point="CENTER"/>
-								</Anchors>
-							</Texture>
-						</Layer>
-					</Layers>
-				</Frame>
-            </Frame>
+		   </Frame>
 			
             <Frame name="BottomSection" parent="$parent">
                 <Size>
