@@ -98,79 +98,29 @@
         </Layers>
 		
         <Frames>
-            <Frame name="TopSection" parent="UIParent" hidden="false">
+            <Frame name="TopSection" parent="$parent">
 				<Size>
 					<AbsDimension x="800" y="400"/>  <!-- Размер TopSection -->
 				</Size>
 				<Anchors>
-					<Anchor point="TOP"/>
+					<Anchor point="TOP" />
 				</Anchors>
 
 				<!-- Первый фрейм -->
-				<Frame name="TopFrame1">
+				<Frame name="CardFrame1">
 					<Size>
 						<AbsDimension x="250" y="380"/>
 					</Size>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="10" y="-10"/>
+                        <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="0" y="0"/>
 					</Anchors>
 					<Layers>
 						<Layer level="BACKGROUND">
-							<Texture name="TopFrame1Texture">
-								<Size>
-									<AbsDimension x="250" y="380"/>
-								</Size>
-								<Anchors>
-									<Anchor point="CENTER"/>
-								</Anchors>
-							</Texture>
+							<Texture name="$card1Background" setAllPoints="true" file="Interface\AddOns\PalaceOfAssassins\textures\card.tga"/>
 						</Layer>
 					</Layers>
 				</Frame>
 
-				<!-- Второй фрейм -->
-				<Frame name="TopFrame2">
-					<Size>
-						<AbsDimension x="250" y="380"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="TopFrame1" relativePoint="TOPRIGHT" x="10" y="0"/>
-					</Anchors>
-					<Layers>
-						<Layer level="BACKGROUND">
-							<Texture name="TopFrame2Texture">
-								<Size>
-									<AbsDimension x="250" y="380"/>
-								</Size>
-								<Anchors>
-									<Anchor point="CENTER"/>
-								</Anchors>
-							</Texture>
-						</Layer>
-					</Layers>
-				</Frame>
-
-				<!-- Третий фрейм -->
-				<Frame name="TopFrame3">
-					<Size>
-						<AbsDimension x="250" y="380"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeTo="TopFrame2" relativePoint="TOPRIGHT" x="10" y="0"/>
-					</Anchors>
-					<Layers>
-						<Layer level="BACKGROUND">
-							<Texture name="TopFrame3Texture">
-								<Size>
-									<AbsDimension x="250" y="380"/>
-								</Size>
-								<Anchors>
-									<Anchor point="CENTER"/>
-								</Anchors>
-							</Texture>
-						</Layer>
-					</Layers>
-				</Frame>
 
 			</Frame>
 				
