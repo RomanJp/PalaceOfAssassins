@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\FrameXML\UI.xsd">
-    <Frame name="PalaceOfAssassinsFrame" parent="UIParent" hidden="false" movable="true" resizable="false" frameStrata="HIGH">
-  
+    <Frame name="POA_Frame" parent="UIParent" hidden="false" movable="true" resizable="false" frameStrata="HIGH">
         <Size>
             <AbsDimension x="800" y="600"/>
         </Size>
@@ -141,36 +140,6 @@
                     </Anchors>
                 </Texture>
 				
-				<!-- Первая карта -->
-                <Texture name="$card1Texture" file="Interface\AddOns\PalaceOfAssassins\textures\card.tga">
-                    <Size>
-                        <AbsDimension x="250" y="380"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="20" y="-20"/>
-                    </Anchors>
-                </Texture>
-				
-				<!-- Вторая карта -->
-                <Texture name="$card2Texture" file="Interface\AddOns\PalaceOfAssassins\textures\card.tga">
-                    <Size>
-                        <AbsDimension x="250" y="380"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-20"/>
-                    </Anchors>
-                </Texture>
-				
-				<!-- Третья карта -->
-                <Texture name="$card3Texture" file="Interface\AddOns\PalaceOfAssassins\textures\card.tga">
-                    <Size>
-                        <AbsDimension x="250" y="380"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-20" y="-20"/>
-                    </Anchors>
-                </Texture>
-				
 				<!-- Задний фон иконки ранга -->
                 <Texture file="Interface\AddOns\PalaceOfAssassins\textures\icon_block.tga">
                     <Size>
@@ -223,6 +192,31 @@
         </Layers>
 		
         <Frames>
+			<!-- Первая карта -->                
+			<Button name="Card1Button">
+				<Size x="250" y="380"/>
+
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="20" y="-20"/>
+				</Anchors>		
+			</Button>
+			<!-- Вторая карта -->
+			<Button name="Card2Button">
+				<Size x="250" y="380"/>
+
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-20"/>
+				</Anchors>			
+			</Button>
+			<!-- Третья карта -->
+			<Button name="Card3Button">
+				<Size x="250" y="380"/>
+
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="-20" y="-20"/>
+				</Anchors>			
+			</Button>
+			
 			<Button name="RankUpButton" inherits="UIPanelButtonTemplate" text="Rank up!">
 				<Size x="150" y="30"/>
 
@@ -292,7 +286,8 @@
                     </OnClick>
                 </Scripts>
 		   </Button>   
-        </Frames>
+        
+		</Frames>
         
 		<Scripts>
             <OnLoad>
@@ -302,4 +297,5 @@
             </OnLoad>
         </Scripts>
     </Frame>
+
 </Ui>
