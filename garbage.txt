@@ -1,0 +1,1387 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/FrameXML/UI.xsd">
+
+    <Frame name="POA_MainFrame" parent="UIParent" movable="true" enableMouse="true">
+        <Size>
+            <AbsDimension x="800" y="600"/> <!-- Размер окна -->
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/> <!-- Центрируем в UI -->
+        </Anchors>
+        <Backdrop bgFile="Interface\\DialogFrame\\UI-DialogBox-Background"/>
+		
+		<!-- Фон окна -->
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="POA_Background" file="Interface\\PalaceOfAssassins\\Textures\\Background">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+					<!-- <Color r="0" g="0" b="0" a="0.8"/>  Чёрный фон с прозрачностью -->
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<!-- Граница окна -->
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="MyAddonFrameBorder" file="Interface\\Tooltips\\UI-Tooltip-Border">
+					<Size>
+						<AbsDimension x="16" y="16"/>
+					</Size>
+					<Anchors>
+						<!-- 
+						Использует стандартную текстуру рамки UI-Tooltip-Border.
+						Смещение x="-5" y="5" для рамки. 
+						-->
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="-5" y="5"/> 
+						<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="5" y="-5"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+    </Frame>
+
+</Ui>
+
+
+<!--
+Фон задаётся Texture с SetColorTexture() (если однотонный) или file (если картинка).
+
+local frame = CreateFrame("Frame", "MyAddonFrame", UIParent)
+frame:SetSize(300, 200)
+frame:SetPoint("CENTER")
+
+-- Фон
+local bg = frame:CreateTexture(nil, "BACKGROUND")
+bg:SetAllPoints()
+bg:SetColorTexture(0, 0, 0, 0.8)  -- Чёрный фон с прозрачностью
+
+-- Граница
+local border = frame:CreateTexture(nil, "BORDER")
+border:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+border:SetPoint("TOPLEFT", frame, "TOPLEFT", -5, 5)
+border:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 5, -5)
+
+
+-->
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/FrameXML/UI.xsd">
+    <Frame name="MyAddonMainFrame" parent="UIParent" movable="true" enableMouse="true" hidden="false">
+        <Size>
+            <AbsDimension x="800" y="600"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                MyAddon_OnLoad(self)
+            </OnLoad>
+        </Scripts>
+
+        <!-- Фоновая картинка -->
+        <Texture name="$parentBackground">
+            <Size>
+                <AbsDimension x="800" y="600"/>
+            </Size>
+            <Anchors>
+                <Anchor point="CENTER"/>
+            </Anchors>
+            <Texture file="Interface/AddOns/MyAddon/Textures/MyAddonBackground.tga"/>
+        </Texture>
+		
+        <!-- Верхняя часть с 3 фреймами -->
+        <Frame name="$parentTopFrame">
+            <Size>
+                <AbsDimension x="800" y="400"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT"/>
+            </Anchors>
+        </Frame>
+
+        <!-- Три фрейма внутри верхней части -->
+        <Frame name="$parentFrame1">
+            <Size>
+                <AbsDimension x="250" y="380"/>
+            </Size>
+            <Anchors>
+                <Anchor point="LEFT" relativeTo="$parentTopFrame" relativePoint="LEFT" x="50"/>
+            </Anchors>
+        </Frame>
+
+        <Frame name="$parentFrame2">
+            <Size>
+                <AbsDimension x="250" y="380"/>
+            </Size>
+            <Anchors>
+                <Anchor point="CENTER" relativeTo="$parentTopFrame" relativePoint="CENTER"/>
+            </Anchors>
+        </Frame>
+
+        <Frame name="$parentFrame3">
+            <Size>
+                <AbsDimension x="250" y="380"/>
+            </Size>
+            <Anchors>
+                <Anchor point="RIGHT" relativeTo="$parentTopFrame" relativePoint="RIGHT" x="-50"/>
+            </Anchors>
+        </Frame>
+
+        <!-- Нижняя часть -->
+        <Frame name="$parentBottomFrame">
+            <Size>
+                <AbsDimension x="800" y="200"/>
+            </Size>
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parentTopFrame" relativePoint="BOTTOMLEFT"/>
+            </Anchors>
+
+            <!-- Иконка ранга -->
+            <Texture name="$parentRankIcon">
+                <Size>
+                    <AbsDimension x="64" y="64"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" x="10" y="0"/>
+                </Anchors>
+                <Texture file="Interface/AddOns/MyAddon/Textures/RankIcon.tga"/>
+            </Texture>
+
+            <!-- Информация о ранге -->
+            <FontString name="$parentRankName" inherits="GameFontNormal">
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentRankIcon" relativePoint="RIGHT" x="10"/>
+                </Anchors>
+                <Text>Ранг: Новичок</Text>
+            </FontString>
+
+            <FontString name="$parentDeathCoins" inherits="GameFontNormal">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentRankName" relativePoint="BOTTOMLEFT" y="-5"/>
+                </Anchors>
+                <Text>Death Coins: 0</Text>
+            </FontString>
+
+            <FontString name="$parentReputation" inherits="GameFontNormal">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentDeathCoins" relativePoint="BOTTOMLEFT" y="-5"/>
+                </Anchors>
+                <Text>Репутация: 0</Text>
+            </FontString>
+
+            <!-- Кнопки справа -->
+            <Button name="$parentRankUpButton" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="120" y="30"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT" x="-10"/>
+                </Anchors>
+                <Text>Повысить ранг</Text>
+                <Scripts>
+                    <OnClick>
+                        MyAddon_ShowRankUpWindow()
+                    </OnClick>
+                </Scripts>
+            </Button>
+			
+			<!-- Диалоговое окно (по умолчанию скрыто) -->
+			<Frame name="MyAddonRankUpWindow" hidden="true" parent="UIParent" movable="true" enableMouse="true">
+				<Size>
+					<AbsDimension x="400" y="300"/>
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER"/>
+				</Anchors>
+				<Backdrop bgFile="Interface\\DialogFrame\\UI-DialogBox-Background"
+						  edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border"
+						  edgeSize="16">
+					<BackdropInsets left="4" right="4" top="4" bottom="4"/>
+				</Backdrop>
+
+				<!-- Кнопка закрытия окна -->
+				<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+					<Size>
+						<AbsDimension x="30" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-5" y="-5"/>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							MyAddon_HideRankUpWindow()
+						</OnClick>
+					</Scripts>
+				</Button>
+
+				<!-- Иконка нового ранга -->
+				<Texture name="$parentRankIcon">
+					<Size>
+						<AbsDimension x="64" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" y="-40"/>
+					</Anchors>
+					<Texture file="Interface/AddOns/MyAddon/Textures/NewRankIcon.tga"/>
+				</Texture>
+
+				<!-- Название нового ранга -->
+				<FontString name="$parentRankName" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentRankIcon" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<Text>Новый ранг: Воин</Text>
+				</FontString>
+
+				<!-- Очки -->
+				<FontString name="$parentPointsRequired" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentRankName" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<Text>Необходимо очков: 500 (У вас: 300)</Text>
+				</FontString>
+
+				<!-- Репутация -->
+				<FontString name="$parentReputationRequired" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentPointsRequired" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<Text>Необходимо репутации: 1000 (У вас: 800)</Text>
+				</FontString>
+
+				<!-- Кнопка "Повысить ранг" -->
+				<Button name="$parentConfirmButton" inherits="UIPanelButtonTemplate">
+					<Size>
+						<AbsDimension x="150" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM" y="20"/>
+					</Anchors>
+					<Text>Повысить ранг</Text>
+					<Scripts>
+						<OnClick>
+							MyAddon_ConfirmRankUp()
+						</OnClick>
+					</Scripts>
+				</Button>
+			</Frame>
+
+            <Button name="$parentMissionButton" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="120" y="30"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentRankUpButton" relativePoint="LEFT" x="-10"/>
+                </Anchors>
+                <Text>Миссия</Text>
+                <Scripts>
+                    <OnClick>
+                        MyAddon_ShowMissionWindow()
+                    </OnClick>
+                </Scripts>
+            </Button>
+			
+			<!-- Диалоговое окно "Миссии" (по умолчанию скрыто) -->
+			<Frame name="MyAddonMissionWindow" hidden="true" parent="UIParent" movable="true" enableMouse="true">
+				<Size>
+					<AbsDimension x="400" y="350"/>
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER"/>
+				</Anchors>
+				<Backdrop bgFile="Interface\\DialogFrame\\UI-DialogBox-Background"
+						  edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border"
+						  edgeSize="16">
+					<BackdropInsets left="4" right="4" top="4" bottom="4"/>
+				</Backdrop>
+
+				<!-- Кнопка закрытия окна -->
+				<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+					<Size>
+						<AbsDimension x="30" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-5" y="-5"/>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							MyAddon_HideMissionWindow()
+						</OnClick>
+					</Scripts>
+				</Button>
+
+				<!-- Заголовок "Выберите миссию" -->
+				<FontString name="$parentMissionTitle" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="TOP" y="-30"/>
+					</Anchors>
+					<Text>Выберите миссию</Text>
+				</FontString>
+
+				<!-- Список миссий -->
+				<Frame name="$parentMissionList">
+					<Size>
+						<AbsDimension x="360" y="200"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentMissionTitle" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+				</Frame>
+
+				<!-- Кнопка подтверждения выбора миссии -->
+				<Button name="$parentConfirmButton" inherits="UIPanelButtonTemplate">
+					<Size>
+						<AbsDimension x="150" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM" y="20"/>
+					</Anchors>
+					<Text>Подтвердить</Text>
+					<Scripts>
+						<OnClick>
+							MyAddon_ConfirmMission()
+						</OnClick>
+					</Scripts>
+				</Button>
+			</Frame>
+
+			<!-- Кнопка "Передача очков" -->
+            <Button name="$parentTransferPointsButton" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="120" y="30"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentMissionButton" relativePoint="LEFT" x="-10"/>
+                </Anchors>
+                <Text>Передать очки</Text>
+                <Scripts>
+                    <OnClick>
+						MyAddon_ShowTransferWindow()
+                    </OnClick>
+                </Scripts>
+            </Button>
+			
+			<!-- Диалоговое окно "Передача очков" (по умолчанию скрыто) -->
+			<Frame name="MyAddonTransferWindow" hidden="true" parent="UIParent" movable="true" enableMouse="true">
+				<Size>
+					<AbsDimension x="400" y="350"/>
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER"/>
+				</Anchors>
+				<Backdrop bgFile="Interface\\DialogFrame\\UI-DialogBox-Background"
+						  edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border"
+						  edgeSize="16">
+					<BackdropInsets left="4" right="4" top="4" bottom="4"/>
+				</Backdrop>
+
+				<!-- Кнопка закрытия окна -->
+				<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+					<Size>
+						<AbsDimension x="30" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-5" y="-5"/>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							MyAddon_HideTransferWindow()
+						</OnClick>
+					</Scripts>
+				</Button>
+
+				<!-- Иконка ранга -->
+				<Texture name="$parentRankIcon">
+					<Size>
+						<AbsDimension x="64" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" y="-40"/>
+					</Anchors>
+					<Texture file="Interface/AddOns/MyAddon/Textures/RankIcon.tga"/>
+				</Texture>
+
+				<!-- Название ранга -->
+				<FontString name="$parentRankName" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentRankIcon" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<Text>Ваш ранг: Воин</Text>
+				</FontString>
+
+				<!-- Иконка фракции -->
+				<Texture name="$parentFactionIcon">
+					<Size>
+						<AbsDimension x="48" y="48"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentRankName" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<Texture file="Interface/AddOns/MyAddon/Textures/FactionIcon.tga"/>
+				</Texture>
+
+				<!-- Ник и сервер -->
+				<FontString name="$parentRecipient" inherits="GameFontNormal">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentFactionIcon" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<Text>Получатель: Ник-Сервер</Text>
+				</FontString>
+
+				<!-- Поле ввода количества очков -->
+				<EditBox name="$parentPointsInput" inherits="InputBoxTemplate">
+					<Size>
+						<AbsDimension x="120" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentRecipient" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<MaxLetters>5</MaxLetters>
+					<Scripts>
+						<OnTextChanged>
+							MyAddon_ValidatePointsInput(self)
+						</OnTextChanged>
+					</Scripts>
+				</EditBox>
+
+				<!-- Кнопка подтверждения -->
+				<Button name="$parentConfirmButton" inherits="UIPanelButtonTemplate">
+					<Size>
+						<AbsDimension x="150" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM" y="20"/>
+					</Anchors>
+					<Text>Передать очки</Text>
+					<Scripts>
+						<OnClick>
+							MyAddon_ConfirmTransfer()
+						</OnClick>
+					</Scripts>
+				</Button>
+			</Frame>
+
+            <Button name="$parentInfoButton" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="120" y="30"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentTransferPointsButton" relativePoint="LEFT" x="-10"/>
+                </Anchors>
+                <Text>Инфо</Text>
+                <Scripts>
+                    <OnClick>
+                        MyAddon_Info()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentLeaderboardButton" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="120" y="30"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentInfoButton" relativePoint="LEFT" x="-10"/>
+                </Anchors>
+                <Text>Таблица лидеров</Text>
+                <Scripts>
+                    <OnClick>
+                        MyAddon_ShowLeaderboard()
+                    </OnClick>
+                </Scripts>
+            </Button>
+			
+			<!-- Диалоговое окно "Таблица лидеров" (по умолчанию скрыто) -->
+			<Frame name="MyAddonLeaderboardWindow" hidden="true" parent="UIParent" movable="true" enableMouse="true">
+				<Size>
+					<AbsDimension x="500" y="400"/>
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER"/>
+				</Anchors>
+				<Backdrop bgFile="Interface\\DialogFrame\\UI-DialogBox-Background"
+						  edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border"
+						  edgeSize="16">
+					<BackdropInsets left="4" right="4" top="4" bottom="4"/>
+				</Backdrop>
+
+				<!-- Кнопка закрытия окна -->
+				<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+					<Size>
+						<AbsDimension x="30" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-5" y="-5"/>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							MyAddon_HideLeaderboard()
+						</OnClick>
+					</Scripts>
+				</Button>
+
+				<!-- Заголовок "Таблица лидеров" -->
+				<FontString name="$parentLeaderboardTitle" inherits="GameFontNormalLarge">
+					<Anchors>
+						<Anchor point="TOP" y="-30"/>
+					</Anchors>
+					<Text>Таблица лидеров ТОП 100</Text>
+				</FontString>
+
+				<!-- Фрейм для таблицы -->
+				<ScrollFrame name="$parentLeaderboardList" inherits="UIPanelScrollFrameTemplate">
+					<Size>
+						<AbsDimension x="460" y="300"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentLeaderboardTitle" relativePoint="BOTTOM" y="-10"/>
+					</Anchors>
+					<ScrollChild>
+						<Frame name="$parentLeaderboardContent">
+							<Size>
+								<AbsDimension x="460" y="300"/>
+							</Size>
+						</Frame>
+					</ScrollChild>
+				</ScrollFrame>
+			</Frame>
+        </Frame>
+    </Frame>
+</Ui>
+
+
+
+-- Palace of Assassins Addon - Enemy Tracking, Icon Display, Rank-Based Points System, Bounty, Guild Target, Excommunicado & Territory Overlord System
+
+local PalaceOfAssassins = CreateFrame("Frame")
+PalaceOfAssassins:RegisterEvent("ADDON_LOADED")
+PalaceOfAssassins:RegisterEvent("CHAT_MSG_ADDON")
+PalaceOfAssassins:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+PalaceOfAssassins:RegisterEvent("PLAYER_DEAD")
+
+local playerRank = 1 -- Default rank for testing
+local playerPoints = 0 -- Contribution points for ranking up
+local enemyRanks = {} -- Stores enemy ranks if they are in the organization
+local missions = {} -- Unified list for bounties, enemy guilds, and excommunicated players
+local territoryOverlordActive = false
+local multiplier = 1
+local territoryOverlordTimer
+local savedPoints = 0
+
+-- Rank system with corresponding icons and point requirements
+local rankSystem = {
+    {name = "Initiate", icon = "Interface\\Icons\\INV_Misc_QuestionMark", pointsRequired = 0},
+    {name = "Adept", icon = "Interface\\Icons\\INV_Sword_04", pointsRequired = 1000},
+    {name = "Slayer", icon = "Interface\\Icons\\INV_Axe_06", pointsRequired = 3000},
+    {name = "Executioner", icon = "Interface\\Icons\\Ability_Warrior_InnerRage", pointsRequired = 6000},
+    {name = "Bloodletter", icon = "Interface\\Icons\\Spell_Shadow_BloodBoil", pointsRequired = 10000},
+    {name = "Reaper", icon = "Interface\\Icons\\Ability_DualWield", pointsRequired = 15000},
+    {name = "Warlord", icon = "Interface\\Icons\\Ability_Warrior_OffensiveStance", pointsRequired = 21000},
+    {name = "Shadowblade", icon = "Interface\\Icons\\INV_Weapon_ShortBlade_16", pointsRequired = 28000},
+    {name = "Dread Knight", icon = "Interface\\Icons\\Ability_Warrior_Challange", pointsRequired = 36000},
+    {name = "Dark Lord", icon = "Interface\\Icons\\Ability_Warlock_EmpoweredImp", pointsRequired = 45000},
+    {name = "Master Assassin", icon = "Interface\\Icons\\INV_Weapon_ShortBlade_07", pointsRequired = 55000},
+    {name = "Demon Slayer", icon = "Interface\\Icons\\Achievement_Boss_Illidan", pointsRequired = 66000},
+    {name = "God of Death", icon = "Interface\\Icons\\Spell_Shadow_RitualOfSacrifice", pointsRequired = 78000},
+}
+
+PalaceOfAssassins:SetScript("OnEvent", function(self, event, ...)
+    if event == "ADDON_LOADED" then
+        local addonName = ...
+        if addonName == "PalaceOfAssassins" then
+            RegisterAddonMessagePrefix("PoA_Info")
+            print("Palace of Assassins Loaded - Communication & Tracking Enabled")
+        end
+    elseif event == "CHAT_MSG_ADDON" then
+        local prefix, message, channel, sender = ...
+        if prefix == "PoA_Info" then
+            PalaceOfAssassins:HandleIncomingMessage(message, sender)
+        end
+    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
+        PalaceOfAssassins:ProcessCombatLog(CombatLogGetCurrentEventInfo())
+    elseif event == "PLAYER_DEAD" then
+        PalaceOfAssassins:HandlePlayerDeath()
+    end
+end)
+
+function PalaceOfAssassins:SendMessage(message, target)
+    if target then
+        SendAddonMessage("PoA_Info", message, "WHISPER", target)
+    elseif IsInRaid() then
+        SendAddonMessage("PoA_Info", message, "RAID")
+    elseif IsInGroup() then
+        SendAddonMessage("PoA_Info", message, "PARTY")
+    else
+        SendAddonMessage("PoA_Info", message, "GUILD")
+    end
+end
+
+function PalaceOfAssassins:StartTerritoryOverlord()
+    if territoryOverlordActive then
+        print("[PoA] Territory Overlord is already active!")
+        return
+    end
+	
+	 if not PalaceOfAssassins:HasSlayerBuff() then
+        print("[PoA] You must have the 'Slayer of the Alliance' or 'Slayer of the Horde' buff to start Territory Overlord!")
+        return
+    end
+
+    territoryOverlordActive = true
+    multiplier = 2
+	savedPoints = playerPoints
+	
+    print("[PoA] Territory Overlord started! Survive and earn multiplied points!")
+    
+    territoryOverlordTimer = C_Timer.NewTicker(10, function()
+        multiplier = multiplier * 2
+        print("[PoA] Territory Overlord multiplier increased to x" .. multiplier)
+    end, 6)
+    
+    C_Timer.After(60, function()
+        PalaceOfAssassins:EndTerritoryOverlord()
+    end)
+end
+
+function PalaceOfAssassins:EndTerritoryOverlord()
+    if not territoryOverlordActive then return end
+    
+    territoryOverlordActive = false
+    print("[PoA] Territory Overlord has ended! Total multiplier: x" .. multiplier)
+    
+    multiplier = 1
+end
+
+function PalaceOfAssassins:HandlePlayerDeath()
+    if territoryOverlordActive then
+        print("[PoA] You died during Territory Overlord! Points reset to pre-event value.")
+        playerPoints = savedPoints -- Reset points and minus ШТРАФ
+        PalaceOfAssassins:EndTerritoryOverlord()
+    end
+end
+
+-- Command to start Territory Overlord event
+SLASH_POATERRITORY1 = "/poaterritory"
+SlashCmdList["POATERRITORY"] = function()
+    PalaceOfAssassins:StartTerritoryOverlord()
+end
+
+-- Function to check if the player has the Slayer buff
+function PalaceOfAssassins:HasSlayerBuff()
+    for i = 1, 40 do
+        local buffName = UnitBuff("player", i)
+        if buffName == "Slayer of the Alliance" or buffName == "Slayer of the Horde" then
+            return true
+        end
+    end
+    return false
+end
+
+--------------------------------------------------------------------------------------------------
+TODO:
+0. Сперва сделать обвертку для аддона
+1. Создать аддон, который рисует иконки над игроками, что находяться рядом
+	- rank Icon (рассылка своего ранга всем игрокам поблизости, у кого есть аддон)
+	- kill Icon (1. получить полное имя цели; 2. проверить есть ли на него задание; 3. нарисаовать соответствующую иконку)
+	- Excommunicado Icon
+	
+	--
+	-- Функция для рассылки своего ранга всем игрокам поблизости, у кого есть аддон
+	local function BroadcastRankToNearbyPlayers()
+		if playerData.rank ~= "Unknown" then
+			local fullName = GetFullPlayerName("player")
+			local message = playerData.rank .. "," .. fullName
+			
+			-- Отправляем в доступные локальные каналы
+			C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "SAY") -- В пределах слышимости
+			C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "YELL") -- В более широком радиусе
+			C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "PARTY") -- В группе
+			C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "RAID") -- В рейде
+			C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "GUILD") -- В гильдии
+		end
+	end
+
+	-- Модифицируем `AnnounceRankUpdate`, чтобы он также вызывал `BroadcastRankToNearbyPlayers`
+	local function AnnounceRankUpdate()
+		BroadcastRankToNearbyPlayers() -- Теперь ранг рассылается локально
+	end
+2. Добавить систему пополнения очков DeathCoin и AssassinReputation
+	- за убийство любого 80-го лвл дают = math.floor(10 - (playerLVL - targetLVL)) * (rank or 0.5)) очков 
+	- если цель Excommunicado, тогда очки увеличиваются х10
+3. Создать систему передачи очков <кому>,<сколько>
+4. Создать систему повышения ранга – обмен очков вклада на повышение ранга, при доступной репутации.
+5. Создать систему объявления кого-то экскомьюникадо
+6. Создать систему добавления и обслуживания миссий
+	- Повелитель территории – запуск таймера множителя очков.
+	- Экскомьюникадо – отлучение игрока на 24 часа.
+	- Заказ на убийство – возможность отметить цель для приоритетного устранения.
+	- Гильдия отчужденцев – система управления игроками и их статусами в организации.
+	- Судный день для <ЗОНЫ>
+	- Кровавая луна  (все убийства приносят x2 очков на 1 час).
+	- День Охотника  (специальные награды за выполнение заказов).
+	- "ВОЙНА БОГОВ СМЕРТИ" (нет штрафов за смерти, убийства приносят х13 очков в этот день, активируется когда один Бог Смерти с 13 рангом, обьявляет войну другому Богу Смерти)
+7. Автоматическое создание трех миссий 1 раз в сутки!
+8. Рейтинговая система убийц
+	- Отображать список топ-100 игроков с наибольшим количеством очков вклада: ранг(иконка), кол-во очков, фракция, ник, сервер 
+	- Добавить звания (например, "Лучший убийца недели").
+9. Динамические награды за убийства
+	- Начислять дополнительные очки, если:
+		* Убита цель с более высоким рангом.
+		* Совершено серийное убийство (несколько без смерти).(только повышение репутации)
+		* Убита цель из списка "Экскомьюникадо". х10 (+ повышение репутации)
+	- Вводить штраф за убийство низкоранговых целей - уменьшение репутации.	
+10. Система штрафов
+	- Если игрок убивает мирных NPC, он получает штраф в виде снижения очков вклада.
+	- Добавить "проклятие убийцы" — если игрок долго не выполняет заказы, он теряет много репутации!
+11. Клановая система убийц
+	- Игроки смогут создавать группы наемных убийц (кланы) с общими заказами.
+	- Возможность разделять награду между участниками.
+12. Улучшенный Excommunicado
+	- Сделать так, чтобы игроки могли голосовать за изгнание члена организации, только членам клана внутри клана!
+	- Если несколько (10) убийц отмечают цель как "unworthy", он автоматически становится "Excommunicado"
+13. PvP-метки на миникарте
+	- Отображение игроков с контрактами на убийство.
+14. Добавить титулы и подсветку игракам за определенные достижения.
+15. Визуальные эффекты рангов (например, аура для высокоранговых убийц).
+	
+
+-- Mission
+-- Description (название)
+-- Type (тип)
+-- EndDate (дата оканчания)
+-- Reward (награда)
+-- Skipped (скипнуто, true/false)
+-- Completed (сделано, true/false)
+
+
+-- WoW Addon: PlayerRankTracker
+-- Этот аддон отслеживает ранги игроков поблизости и отображает иконки над их головами.
+
+local addonName, addon = ...
+local PREFIX_RANK_REQUEST = "PRT_RANK_REQ"
+local PREFIX_RANK_RESPONSE = "PRT_RANK_RES"
+local PREFIX_RANK_UPDATE = "PRT_RANK_UPDATE"
+local PREFIX_MISSION_BROADCAST = "PRT_MISSION_BC"
+
+-- Таблица для хранения информации об игроках
+local playerData = {
+	lastLogin = "Unknown", -- Дата последнего входа в игру
+    missions = {},   -- отслеживаемые
+    allMissions = {},  -- все доступные
+	isExcommunicado = false,
+    rank = 1,  -- Ранг игрока
+	deathCoins = 0,
+	territorySavedPoints = 0,
+	territoryOverlordActive = false,
+	territoryOverlordTimer
+}
+
+-- Rank system with corresponding icons and point requirements
+local rankSystem = {
+    {rank = 1, name = "Initiate", icon = "Interface\\Icons\\INV_Misc_QuestionMark", pointsRequired = 0},
+    {rank = 2, name = "Adept", icon = "Interface\\Icons\\INV_Sword_04", pointsRequired = 1000},
+    {rank = 3, name = "Slayer", icon = "Interface\\Icons\\INV_Axe_06", pointsRequired = 3000},
+    {rank = 4, name = "Executioner", icon = "Interface\\Icons\\Ability_Warrior_InnerRage", pointsRequired = 6000},
+    {rank = 5, name = "Bloodletter", icon = "Interface\\Icons\\Spell_Shadow_BloodBoil", pointsRequired = 10000},
+    {rank = 6, name = "Reaper", icon = "Interface\\Icons\\Ability_DualWield", pointsRequired = 15000},
+    {rank = 7, name = "Warlord", icon = "Interface\\Icons\\Ability_Warrior_OffensiveStance", pointsRequired = 21000},
+    {rank = 8, name = "Shadowblade", icon = "Interface\\Icons\\INV_Weapon_ShortBlade_16", pointsRequired = 28000},
+    {rank = 9, name = "Dread Knight", icon = "Interface\\Icons\\Ability_Warrior_Challange", pointsRequired = 36000},
+    {rank = 10, name = "Dark Lord", icon = "Interface\\Icons\\Ability_Warlock_EmpoweredImp", pointsRequired = 45000},
+    {rank = 11, name = "Master Assassin", icon = "Interface\\Icons\\INV_Weapon_ShortBlade_07", pointsRequired = 55000},
+    {rank = 12, name = "Demon Slayer", icon = "Interface\\Icons\\Achievement_Boss_Illidan", pointsRequired = 66000},
+    {rank = 13, name = "God of Death", icon = "Interface\\Icons\\Spell_Shadow_RitualOfSacrifice", pointsRequired = 78000},
+}
+
+local nearbyPlayers = {} -- Таблица для хранения рангов других игроков
+local playerIcons = {} -- Таблица для хранения иконок над игроками
+
+-- Создаем фрейм для обработки событий
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("CHAT_MSG_ADDON")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
+frame:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
+
+-- Функция для поиска ранга по его числовому значению
+local function GetRankByValue(rankValue)
+    for _, rankInfo in ipairs(rankSystem) do
+        if rankInfo.rank == rankValue then
+            return rankInfo
+        end
+    end
+    return nil -- Если ранг не найден
+end
+
+-- Функция для получения полного имени игрока (ник-сервер)
+local function GetFullPlayerName(unit)
+    local name, realm = UnitFullName(unit)
+    if not realm or realm == "" then
+        realm = GetRealmName()
+    end
+    return name .. "-" .. realm
+end
+
+-- Функция для запроса ранга у другого игрока
+local function RequestPlayerRank(target)
+    if target and target ~= "" then
+		-- C_ChatInfo.SendAddonMessage(prefix, message [, chatType, target])
+		-- * prefix (string) - Префикс сообщения, может использоваться как идентификатор вашего дополнения; максимум 16 символов.
+		-- * message (string) - Текст для отправки, не более 255 символов. Допустимы все символы (десятичный идентификатор 1-255), кроме NULL (ASCII 0).
+		-- * chatType (string?) - [= PARTY] - Дополнительный канал для отправки.
+		-- * target (string|number?) -  Имя игрока или номер пользовательского канала, получающего сообщение для типов чата «WHISPER» или «CHANNEL».
+	 
+        C_ChatInfo.SendAddonMessage(PREFIX_RANK_REQUEST, "REQ", "WHISPER", target)
+    end
+end
+
+-- Функция для отправки своего ранга в ответ на запрос
+local function RespondWithRank(target)
+	if playerData.rank ~= nil then
+        local fullName = GetFullPlayerName("player")
+        local message = playerData.rank .. ", " .. fullName
+        C_ChatInfo.SendAddonMessage(PREFIX_RANK_RESPONSE, message, "WHISPER", target)
+    end
+end
+
+-- Функция для обновления ранга другого игрока
+local function UpdatePlayerRank(fullName, rank)
+    nearbyPlayers[fullName] = rank
+	-- Если у игрока есть ранг, рисуем иконку
+    local rankInfo = GetRankByValue(tonumber(rank))
+    if rankInfo then
+        for unit in pairs(C_NamePlate.GetNamePlates()) do
+            if GetFullPlayerName(unit) == fullName then
+                DrawIconOverPlayer(unit, rankInfo.icon)
+                break
+            end
+        end
+    end
+end
+
+-- Функция для отрисовки иконки над игроком
+local function DrawIconOverPlayer(unit, iconPath)
+    if not UnitIsPlayer(unit) then return end
+    local name = GetFullPlayerName(unit)
+    if playerIcons[name] then return end -- Если иконка уже есть, не создаем новую
+    
+    local icon = CreateFrame("Frame", nil, UIParent)
+    icon:SetSize(24, 24)
+    icon.texture = icon:CreateTexture(nil, "ARTWORK")
+    icon.texture:SetAllPoints()
+    icon.texture:SetTexture(iconPath)
+    
+    icon:SetParent(C_NamePlate.GetNamePlateForUnit(unit))
+    icon:SetPoint("BOTTOM", C_NamePlate.GetNamePlateForUnit(unit), "TOP", 0, 20)
+    
+    playerIcons[name] = icon
+    icon:Show()
+end
+
+-- Функция для удаления иконки при исчезновении игрока
+local function RemoveIconFromPlayer(unit)
+    local name = GetFullPlayerName(unit)
+    if playerIcons[name] then
+        playerIcons[name]:Hide() -- Скрываем иконку
+        playerIcons[name] = nil -- Удаляем запись из таблицы
+    end
+end
+
+-- Таймер для обновления позиций иконок
+local updateFrame = CreateFrame("Frame")
+updateFrame:SetScript("OnUpdate", function()
+    for unit, _ in pairs(playerIcons) do
+        local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
+        if nameplate then
+            playerIcons[unit]:SetPoint("BOTTOM", nameplate, "TOP", 0, 20)
+        end
+    end
+end)
+
+-- Функция обработки входящих событий
+local function OnEvent(self, event, ...)
+    if event == "CHAT_MSG_ADDON" then
+        local prefix, message, channel, sender = ...
+		-- получаем запрос
+        if prefix == PREFIX_RANK_REQUEST then
+            RespondWithRank(sender) -- отправляем ответ
+		-- получаем ответ
+        elseif prefix == PREFIX_RANK_RESPONSE or prefix == PREFIX_RANK_UPDATE then 
+            local rank, fullName = strsplit(",", message)
+            UpdatePlayerRank(fullName, rank)
+        elseif prefix == PREFIX_MISSION_BROADCAST then
+            local description, missionType, endDate, reward, skipped, completed = strsplit("|", message)
+            table.insert(playerData.missions, {
+                description = description,
+                missionType = missionType,
+                endDate = endDate,
+                reward = tonumber(reward),
+                skipped = skipped == "true",
+                completed = completed == "true"
+            })
+            print("Получена новая миссия: " .. title)
+        end
+	-- регистрируем события при загрузки в игру
+    elseif event == "PLAYER_ENTERING_WORLD" then
+        C_ChatInfo.RegisterAddonMessagePrefix(PREFIX_RANK_REQUEST)
+        C_ChatInfo.RegisterAddonMessagePrefix(PREFIX_RANK_RESPONSE)
+        C_ChatInfo.RegisterAddonMessagePrefix(PREFIX_RANK_UPDATE)
+        C_ChatInfo.RegisterAddonMessagePrefix(PREFIX_MISSION_BROADCAST)
+	-- отслеживаем появление играков
+    elseif event == "NAME_PLATE_UNIT_ADDED" then
+        local unit = ...
+        local fullName = GetFullPlayerName(unit)
+		--отправляем запрос на получение ранга игрока
+        RequestPlayerRank(fullName)
+	-- отслеживаем уход играков
+    elseif event == "NAME_PLATE_UNIT_REMOVED" then
+        local unit = ...
+		RemoveIconFromPlayer(unit) -- Удаляем иконку корректно
+    end
+end
+
+frame:SetScript("OnEvent", OnEvent)
+
+
+-- Функция для уведомления всех слушателей об обновлении ранга
+local function AnnounceRankUpdate()
+    if playerData.rank ~= "Unknown" then
+        local fullName = GetFullPlayerName("player")
+        local message = playerData.rank .. ", " .. fullName
+        --C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "GUILD")
+        --C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "PARTY")
+        --C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "RAID")
+        C_ChatInfo.SendAddonMessage(PREFIX_RANK_UPDATE, message, "WHISPER", target)
+    end
+end
+
+
+-- Команда для установки своего ранга и уведомления всех слушателей
+SLASH_SETRANK1 = "/setrank"
+SlashCmdList["SETRANK"] = function(msg)
+    local rankInfo = GetRankByValue(tonumber(msg))
+    if rankInfo then
+        playerData.rank = msg
+        print("Ваш ранг установлен: " .. rankInfo.name)
+        AnnounceRankUpdate()
+    else
+        print("Некорректный ранг. Используйте число от 1 до 13.")
+    end
+end
+
+-- Функция для добавления миссии и её рассылки всем игрокам с аддоном
+local function AnnounceMission(description, missionType, endDate, reward, skipped, completed)
+    local mission = {
+        description = description,
+        missionType = missionType,
+        endDate = endDate,
+        reward = reward,
+        skipped = skipped,
+        completed = completed
+    }
+    
+    table.insert(playerData.missions, mission)
+    
+    local message = string.format("%s|%s|%s|%d|%s|%s", description, missionType, endDate, reward, tostring(skipped), tostring(completed))
+    C_ChatInfo.SendAddonMessage(PREFIX_MISSION_BROADCAST, message, "GUILD")
+    C_ChatInfo.SendAddonMessage(PREFIX_MISSION_BROADCAST, message, "PARTY")
+    C_ChatInfo.SendAddonMessage(PREFIX_MISSION_BROADCAST, message, "RAID")
+	C_ChatInfo.SendAddonMessage(PREFIX_MISSION_BROADCAST, message, "WHISPER", target)
+end
+
+-- Команда для добавления миссии
+SLASH_ADDMISSION1 = "/addmission"
+SlashCmdList["ADDMISSION"] = function(msg)
+    local description, missionType, endDate, reward, skipped, completed = strsplit(",", msg)
+    if description and missionType and endDate and reward then
+        AnnounceMission(description, missionType, endDate, tonumber(reward), skipped == "true", completed == "true")
+        print("Миссия добавлена и отправлена: " .. title)
+    else
+        print("Использование: /addmission Название,Описание,Тип,ДатаОкончания,Награда,Скипнуто,Сделано")
+    end
+end
+
+
+-----------------------------------------------
+
+local function MyAddon_OnLoad(self)
+    -- Главный фон
+    self:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        tile = true, tileSize = 32, edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    self:SetBackdropColor(0, 0, 0, 0.8)
+
+    -- Верхняя часть
+    local topFrame = _G["MyAddonMainFrameTopFrame"]
+    topFrame:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        tile = true, tileSize = 32, edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    topFrame:SetBackdropColor(0.2, 0.2, 0.6, 0.9) -- Синий фон
+
+    -- Нижняя часть
+    local bottomFrame = _G["MyAddonMainFrameBottomFrame"]
+    bottomFrame:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        tile = true, tileSize = 32, edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+    })
+    bottomFrame:SetBackdropColor(0.2, 0.6, 0.2, 0.9) -- Зелёный фон
+
+    -- Настройка 3 фреймов в верхней части
+    local frames = { "MyAddonMainFrameFrame1", "MyAddonMainFrameFrame2", "MyAddonMainFrameFrame3" }
+    for _, frameName in pairs(frames) do
+        local frame = _G[frameName]
+        frame:SetBackdrop({
+            bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+            edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+            tile = true, tileSize = 32, edgeSize = 16,
+            insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        })
+        frame:SetBackdropColor(0.3, 0.3, 0.3, 0.8) -- Серый фон
+    end
+end
+
+local function MyAddon_OnLoad(self)
+    -- Фоновая картинка
+    local background = _G["MyAddonMainFrameBackground"]
+    background:SetDrawLayer("BACKGROUND")
+
+    -- Обновление текста ранга, Death Coins и репутации
+    _G["MyAddonMainFrameRankName"]:SetText("Ранг: Новичок")
+    _G["MyAddonMainFrameDeathCoins"]:SetText("Death Coins: 100")
+    _G["MyAddonMainFrameReputation"]:SetText("Репутация: 500")
+
+    -- Функции кнопок
+    function MyAddon_RankUp()
+        print("Повышение ранга!")
+    end
+
+    function MyAddon_Mission()
+        print("Открыто меню миссий.")
+    end
+
+    function MyAddon_TransferPoints()
+        print("Передача очков.")
+    end
+
+    function MyAddon_Info()
+        print("Информация об аддоне.")
+    end
+
+    function MyAddon_Leaderboard()
+        print("Открытие таблицы лидеров.")
+    end
+	
+	-- Функция для показа окна повышения ранга
+    function MyAddon_ShowRankUpWindow()
+        MyAddonRankUpWindow:Show()
+    end
+
+    -- Функция для скрытия окна повышения ранга
+    function MyAddon_HideRankUpWindow()
+        MyAddonRankUpWindow:Hide()
+    end
+
+    -- Функция подтверждения повышения ранга
+    function MyAddon_ConfirmRankUp()
+        local currentPoints = 300  -- Получить текущее количество очков (заменить на реальный источник)
+        local requiredPoints = 500
+        local currentReputation = 800
+        local requiredReputation = 1000
+
+        if currentPoints >= requiredPoints and currentReputation >= requiredReputation then
+            print("Поздравляем! Ваш ранг повышен!")
+            -- Здесь можно добавить обновление UI или баз данных
+            MyAddon_HideRankUpWindow()
+        else
+            print("Недостаточно очков или репутации для повышения ранга.")
+        end
+    end
+	
+	-- Функция для показа окна "Передача очков"
+    function MyAddon_ShowTransferWindow()
+        MyAddonTransferWindow:Show()
+    end
+
+    -- Функция для скрытия окна "Передача очков"
+    function MyAddon_HideTransferWindow()
+        MyAddonTransferWindow:Hide()
+    end
+
+    -- Функция проверки введенного количества очков
+    function MyAddon_ValidatePointsInput(self)
+        local availablePoints = 1000  -- Текущее количество очков (заменить на реальный источник)
+        local maxTransfer = math.floor(availablePoints * 0.13)  -- 13% от доступных очков
+        local inputText = self:GetText()
+
+        local inputValue = tonumber(inputText)
+        if inputValue then
+            if inputValue < 0 then
+                self:SetText("0")
+            elseif inputValue > maxTransfer then
+                self:SetText(tostring(maxTransfer))
+            end
+        else
+            self:SetText("0")
+        end
+    end
+
+    -- Функция подтверждения передачи очков
+    function MyAddon_ConfirmTransfer()
+        local availablePoints = 1000  -- Текущее количество очков (заменить на реальный источник)
+        local maxTransfer = math.floor(availablePoints * 0.13)  -- 13% от доступных очков
+
+        local pointsInput = tonumber(MyAddonTransferWindowPointsInput:GetText())
+        if not pointsInput then
+            print("Введите корректное число.")
+            return
+        end
+
+        if pointsInput > maxTransfer then
+            print("Вы не можете передать больше, чем 13% от доступных очков.")
+            return
+        end
+
+        print("Передано " .. pointsInput .. " очков.")
+        MyAddon_HideTransferWindow()
+    end
+end
+
+local selectedMission = nil  -- Переменная для хранения выбранной миссии
+
+local missions = {
+    "Заказ на убийство",
+    "Повелитель территории",
+    "Экскомьюникадо",
+    "Гильдия отчужденцев"
+}
+
+local function MyAddon_OnLoad(self)
+    -- Функция для показа окна "Миссии"
+    function MyAddon_ShowMissionWindow()
+        MyAddonMissionWindow:Show()
+        MyAddon_PopulateMissionList()
+    end
+
+    -- Функция для скрытия окна "Миссии"
+    function MyAddon_HideMissionWindow()
+        MyAddonMissionWindow:Hide()
+    end
+
+    -- Функция заполнения списка миссий
+    function MyAddon_PopulateMissionList()
+        local parentFrame = _G["MyAddonMissionWindowMissionList"]
+
+        -- Удаляем старые кнопки
+        for _, child in ipairs({ parentFrame:GetChildren() }) do
+            child:Hide()
+        end
+
+        -- Добавляем новые миссии
+        local lastButton = nil
+        for i, mission in ipairs(missions) do
+            local button = CreateFrame("CheckButton", "MissionOption" .. i, parentFrame, "UIRadioButtonTemplate")
+            button:SetPoint("TOPLEFT", lastButton or parentFrame, "TOPLEFT", 10, lastButton and -25 or -10)
+            button:SetSize(20, 20)
+            button.text = button:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            button.text:SetPoint("LEFT", button, "RIGHT", 5, 0)
+            button.text:SetText(mission)
+
+            button:SetScript("OnClick", function()
+                selectedMission = mission
+                for j = 1, #missions do
+                    _G["MissionOption" .. j]:SetChecked(j == i)
+                end
+            end)
+
+            lastButton = button
+        end
+    end
+
+    -- Функция подтверждения выбора миссии
+    function MyAddon_ConfirmMission()
+        if selectedMission then
+            print("Вы выбрали миссию: " .. selectedMission)
+            MyAddon_HideMissionWindow()
+        else
+            print("Выберите миссию перед подтверждением!")
+        end
+    end
+end
+
+
+                Миссии:
+                1. Заказ на убийство
+                2. Повелитель территории
+                3. Экскомьюникадо
+                4. Гильдия отчужденцев
+
+Заказ на убийство
+- Поле ввода для Nickname и комбобокс со всеми доступными серверами 
+- Кнопка "Найти"
+- Высвечивается ранг если есть, фракция и полный ник
+- Количество требуемых очков вклада
+- Кнопка "Подтвердить"
+- Кнопка "Х" закрыть диалоговое окно
+
+Повелитель территории
+- ComboBox со списком доступных зон
+- Текст с шалочкой или хрестиком, который показывае тналичие баффа "Убийца Альянса"
+- Количество требуемых очков вклада 
+- Кнопка "Начать!"
+- Кнопка "Х", чтобы закрыть диалоговое окно
+
+Экскомьюникадо
+- Поле ввода для Nickname и комбобокс со всеми доступными серверами
+- Кнопка "Найти" 
+- Высвечивается ранг, фракция и полный ник
+- Количество требуемых очков вклада
+- Количество требуемых очков репутации
+- Кнопка "Подтвердить"
+- Кнопка "Х" закрыть диалоговое окно
+
+Гильдия отчужденцев
+- Название гильдии
+- Кнопка "Найти"
+- Показать иконку гильдии и количество человек в ней
+- Количество требуемых очков вклада
+- Количество требуемых очков репутации
+- Кнопка "Подтвердить"
+- Кнопка "Х" закрыть диалоговое окно
+
+local leaderboardData = {
+    { rank = "1", rankIcon = "Interface/AddOns/MyAddon/Textures/Rank1.tga", faction = "Альянс", name = "Игрок1", server = "Сервер1", reputation = 5000 },
+    { rank = "2", rankIcon = "Interface/AddOns/MyAddon/Textures/Rank2.tga", faction = "Орда", name = "Игрок2", server = "Сервер2", reputation = 4800 },
+    { rank = "3", rankIcon = "Interface/AddOns/MyAddon/Textures/Rank3.tga", faction = "Альянс", name = "Игрок3", server = "Сервер3", reputation = 4700 },
+}
+
+local function MyAddon_OnLoad(self)
+    -- Функция для показа окна "Таблица лидеров"
+    function MyAddon_ShowLeaderboard()
+        MyAddonLeaderboardWindow:Show()
+        MyAddon_PopulateLeaderboard()
+    end
+
+    -- Функция для скрытия окна "Таблица лидеров"
+    function MyAddon_HideLeaderboard()
+        MyAddonLeaderboardWindow:Hide()
+    end
+
+    -- Функция заполнения таблицы лидеров
+    function MyAddon_PopulateLeaderboard()
+        local parentFrame = _G["MyAddonLeaderboardWindowLeaderboardContent"]
+
+        -- Удаляем старые элементы
+        for _, child in ipairs({ parentFrame:GetChildren() }) do
+            child:Hide()
+        end
+
+        -- Добавляем лидеров
+        local lastRow = nil
+        for i, data in ipairs(leaderboardData) do
+            local row = CreateFrame("Frame", "LeaderboardRow" .. i, parentFrame)
+            row:SetSize(460, 30)
+            row:SetPoint("TOPLEFT", lastRow or parentFrame, "TOPLEFT", 0, lastRow and -35 or -10)
+
+            -- Номер по порядку
+            local rankText = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            rankText:SetPoint("LEFT", row, "LEFT", 10, 0)
+            rankText:SetText(data.rank)
+
+            -- Иконка ранга
+            local rankIcon = row:CreateTexture(nil, "ARTWORK")
+            rankIcon:SetSize(24, 24)
+            rankIcon:SetPoint("LEFT", rankText, "RIGHT", 10, 0)
+            rankIcon:SetTexture(data.rankIcon)
+
+            -- Фракция
+            local factionText = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            factionText:SetPoint("LEFT", rankIcon, "RIGHT", 10, 0)
+            factionText:SetText(data.faction)
+
+            -- Ник
+            local nameText = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            nameText:SetPoint("LEFT", factionText, "RIGHT", 10, 0)
+            nameText:SetText(data.name)
+
+            -- Сервер
+            local serverText = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            serverText:SetPoint("LEFT", nameText, "RIGHT", 10, 0)
+            serverText:SetText(data.server)
+
+            -- Количество репутации
+            local repText = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            repText:SetPoint("LEFT", serverText, "RIGHT", 10, 0)
+            repText:SetText(data.reputation)
+
+            lastRow = row
+        end
+    end
+end
+
+
+Да, XML-разметку аддона WoW можно разделить на несколько отдельных файлов! Это особенно полезно, если у тебя много окон, кнопок и элементов интерфейса, чтобы код оставался читаемым и удобным.
+
+📌 Как разделить XML?
+В основном файле (MyAddon.toc) указываем все XML-файлы в правильном порядке.
+
+1. Основной XML-файл (MyAddon.xml)
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/FrameXML/UI.xsd">
+
+    <!-- Подключение отдельных XML-файлов -->
+    <Include file="UI_MainFrame.xml"/>
+    <Include file="UI_RankUp.xml"/>
+    <Include file="UI_TransferPoints.xml"/>
+    <Include file="UI_Missions.xml"/>
+    <Include file="UI_Leaderboard.xml"/>
+
+</Ui>
+
+
+2. Файл UI_MainFrame.xml (Главное окно)
+
+<Frame name="MyAddonMainFrame" parent="UIParent" movable="true" enableMouse="true" hidden="false">
+    <Size>
+        <AbsDimension x="800" y="600"/>
+    </Size>
+    <Anchors>
+        <Anchor point="CENTER"/>
+    </Anchors>
+    <Scripts>
+        <OnLoad>
+            MyAddon_OnLoad(self)
+        </OnLoad>
+    </Scripts>
+</Frame>
+
+📌 7. Обновляем MyAddon.toc
+Файл .toc должен подключать все XML и Lua файлы:
+
+## Interface: 100107
+## Title: MyAddon
+## Version: 1.0
+## Author: YourName
+
+MyAddon.xml
+MyAddon.lua
+UI_MainFrame.xml
+UI_RankUp.xml
+UI_TransferPoints.xml
+UI_Missions.xml
+UI_Leaderboard.xml
+
+
+
