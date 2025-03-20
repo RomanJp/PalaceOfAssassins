@@ -1,6 +1,6 @@
 ## Interface: 110007
 ## Title: |cff00ccffPalace Of Assassins|r
-## Author: Targitay
+## Author: Namor.Targ
 ## Notes: You have been given the chance to join the Palace of Assassins. Are you sure... THAT YOU ARE READY?!
 ## Version: 1.0
 ## DefaultState: enabled
