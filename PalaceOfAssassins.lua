@@ -62,6 +62,7 @@ local banner = _G["POA_Banner"]  -- Получаем кнопку
 local paper = _G["POA_Paper"] 
 local paperRiddleText = _G["POA_PaperRiddleText"]	
 local paperCoordinatesText = _G["POA_PaperCoordinatesText"]	
+local complite1,complite2,complite3
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
@@ -123,6 +124,13 @@ function PalaceOfAssassins:OnLoad()
 		
 		card1.bg:SetTexture(PalaceOfAssassinsDB.missions[1].texture)
 
+		-- Добавляем текстуру сверху
+		complite1 = btn:CreateTexture(nil, "OVERLAY")
+		complite1:SetTexture("Interface\\Icons\\INV_Sword_04")
+		complite1:SetSize(32, 32)
+		complite1:SetPoint("CENTER") -- Можно заменить на "TOP", "LEFT", и т.д.
+		complite1:Hide()
+
 		-- Создаем анимационную группу
 		local animGroup = card1:CreateAnimationGroup()
 		
@@ -167,6 +175,12 @@ function PalaceOfAssassins:OnLoad()
 		end
 		
 		card2.bg:SetTexture(PalaceOfAssassinsDB.missions[2].texture)
+		
+		-- Добавляем текстуру сверху
+		local complite = btn:CreateTexture(nil, "OVERLAY")
+		complite:SetTexture("Interface\\Icons\\INV_Sword_04")
+		complite:SetSize(50, 50)
+		complite:SetPoint("CENTER") -- Можно заменить на "TOP", "LEFT", и т.д.
 
 		-- Создаем анимационную группу
 		local animGroup = card2:CreateAnimationGroup()
