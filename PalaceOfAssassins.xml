@@ -198,7 +198,18 @@
 
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="20" y="-20"/>
-				</Anchors>		
+				</Anchors>	
+
+				<Layers>
+					<Layer level="OVERLAY"> <!-- Здесь Layer level="OVERLAY" — это ключевой момент, чтобы текстура была поверх кнопки. -->
+						<Texture name="Card1CompliteTexture" file="Interface\\Icons\\INV_Sword_04">
+							<Size x="50" y="50"/>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>				
 			</Button>
 			<!-- Вторая карта -->
 			<Button name="Card2Button">
